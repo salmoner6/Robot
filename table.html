@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+</head>
+
+<body>
+  <script>
+    let input = prompt("Entrez un nombre pour avoir sa table de multiplication")
+    if (isNaN(input))
+      alert("Vouz n'avez pas entré un nombre")
+    else {
+      for (let i = 1; i < 11; i++) {
+        console.log("%i*%i=%i",i, input, i * input)
+      }
+    }
+
+  </script>
+</body>
+
+</html>
