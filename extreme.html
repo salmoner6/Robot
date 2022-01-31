@@ -20,9 +20,17 @@
      return(a < b ? a : b)
    }
    
-   let extrema = function(a, b) {
-     
+   let extreme = function(a, b) {
+    let absExtreme = max(abs(a), abs(b))
+    if (absExtreme == a || absExtreme == -a) return a
+    else return b
    }
+   
+   let tempMatin = prompt("Entrez la température du matin");
+   let tempSoir = prompt("Entrez la température du soir");
+   console.log("Température minimum : " + min(tempMatin, tempSoir) + 
+   "\nTempérature maximum : " + max(tempMatin, tempSoir) + 
+   "\nTempérature extreme : " + extreme(tempMatin, tempSoir))
   </script>
 </body>
 
