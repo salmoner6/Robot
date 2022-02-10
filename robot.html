@@ -12,7 +12,7 @@
     #R2D2 {
         position: absolute;
         top: 0px;
-        left:0px;
+        left: 0px;
         transition: top 1s, left 1s;
     }
 </style>
@@ -26,20 +26,38 @@
         let r2d2 = document.getElementById('R2D2');
         r2d2.style.top = "300px";
         r2d2.style.left = "300px";
-        
-        r2d2.moveTo = function(x,y){
-            r2d2.style.top = x+"px";
-            r2d2.style.left = y+"px";
+
+        r2d2.moveTo = function (x, y) {
+            r2d2.style.top = x + "px";
+            r2d2.style.left = y + "px";
         }
 
-        r2d2.getPos = function() {
+        r2d2.getPos = function () {
             x = parseInt(r2d2.style.top, 10)
             y = parseInt(r2d2.style.left, 10)
-            return {x, y}
+            return { x, y }
         }
 
-        r2d2.moveRel = function(x,y){
-            
+        r2d2.moveRel = function (x, y) {
+            t = r2d2.getPos().x + x
+            l = r2d2.getPos().y + y
+            r2d2.moveTo(t, l)
+        }
+
+        window.onkeydown = function (e) {
+            const distance = 20;
+            const pg = document.getElementById('playground');
+            const bounds = window.getComputedStyle(pg);
+
+            if (e.key == "ArrowLeft" && r2d2.getPos().y != 0) {
+                r2d2.moveRel(0, -distance)
+            } else if (e.key == "ArrowRight" && r2d2.getPos().y != bounds.width - (bounds.width / 10)) {
+                r2d2.moveRel(0, distance)
+            } else if (e.key == "ArrowUp" && r2d2.getPos().x != 0) {
+                r2d2.moveRel(-distance, 0)
+            } else if (e.key == "ArrowDown" && r2d2.getPos().x != bounds.height - (bounds.height / 10)) {
+                r2d2.moveRel(distance, 0)
+            }
         }
 
 
