@@ -8,21 +8,28 @@
 
 <body>
     <script>
-        let louisXVIII = { nom: "Louis XVIII", pere: "Louis le Dauphin" };
-        louisXVIII.pere.pere = "Louis XV";
-        let louisXVII = { nom: "Louis XVII", pere: "Louis XVI" };
+        let louisXVIII = { nom: "Louis XVIII"};
+        louisXVIII.pere = {nom: "Louis le Dauphin"};
+        louisXVIII.pere.pere = {nom: "Louis XV"};
+        let louisXVII = { nom: "Louis XVII"};
+        louisXVII.pere = {nom: "Louis XVI"};
         louisXVII.pere.pere = louisXVIII.pere;
-        let lArtois = { nom: "Louis-Antoine d'Artois", pere: "Charles X" };
+        let lArtois = { nom: "Louis-Antoine d'Artois"};
+        lArtois.pere = {nom: "Charles X"};
         lArtois.pere.pere = louisXVIII.pere;
-        let hArtois = { nom: "Henri d'Artois", pere: "Charles Ferdinand" };
+        let hArtois = { nom: "Henri d'Artois"};
+        hArtois.pere = {nom: "Charles Ferdinand" }
         hArtois.pere.pere = lArtois.pere;
 
         let grandPere = function (p) {
-            return (p.pere ? p.pere.pere : null)
+            return (p.pere.pere ? p.pere.pere.nom : null)
         }
 
         let ancetre = function (p) {
-
+            if (p.pere) {
+                return ancetre(p.pere)
+            } else 
+                return p.nom
         }
     </script>
 </body>
