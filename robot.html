@@ -32,7 +32,15 @@
             r2d2.style.left = y+"px";
         }
 
-        r2d2.getPos = 
+        r2d2.getPos = function() {
+            x = parseInt(r2d2.style.top, 10)
+            y = parseInt(r2d2.style.left, 10)
+            return {x, y}
+        }
+
+        r2d2.moveRel = function(x,y){
+            
+        }
 
 
     </script>
