@@ -1,16 +1,30 @@
-let louisXVIII = {nom: "Louis XVIII", pere : "Louis le Dauphin"}
-louisXVIII.pere.pere = "Louis XV"
-let louisXVII = {nom: "Louis XVII", pere: "Louis XVI"}
-louisXVII.pere.pere = louisXVIII.pere
-let lArtois = {nom: "Louis-Antoine d'Artois", pere: "Charles X"}
-lArtois.pere.pere = louisXVIII.pere
-let hArtois = {nom: "Henri d'Artois", pere: "Charles Ferdinand"}
-hArtois.pere.pere = lArtois.pere
+<!DOCTYPE html>
+<html lang="en">
 
-let grandPere = function (p) {
-return(p.pere ? p.pere.pere : null)
-}
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
 
-let ancetre = function (p) {
+<body>
+    <script>
+        let louisXVIII = { nom: "Louis XVIII", pere: "Louis le Dauphin" };
+        louisXVIII.pere.pere = "Louis XV";
+        let louisXVII = { nom: "Louis XVII", pere: "Louis XVI" };
+        louisXVII.pere.pere = louisXVIII.pere;
+        let lArtois = { nom: "Louis-Antoine d'Artois", pere: "Charles X" };
+        lArtois.pere.pere = louisXVIII.pere;
+        let hArtois = { nom: "Henri d'Artois", pere: "Charles Ferdinand" };
+        hArtois.pere.pere = lArtois.pere;
 
-}
+        let grandPere = function (p) {
+            return (p.pere ? p.pere.pere : null)
+        }
+
+        let ancetre = function (p) {
+
+        }
+    </script>
+</body>
+
+</html>

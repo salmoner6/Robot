@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    #playground {
+        border: 1px solid black;
+        height: 600px;
+        width: 800px;
+        background: url("desert_sand.jpg");
+        position: relative;
+    }
+
+    #R2D2 {
+        position: absolute;
+        top: 0px;
+        left:0px;
+        transition: top 1s, left 1s;
+    }
+</style>
+
+<div id="playground">
+    <img id="R2D2" src="R2D2.png">
+</div>
+
+<body>
+    <script>
+        let r2d2 = document.getElementById('R2D2');
+        r2d2.style.top = "300px";
+        r2d2.style.left = "300px";
+        
+        r2d2.moveTo = function(x,y){
+            r2d2.style.top = x+"px";
+            r2d2.style.left = y+"px";
+        }
+
+        r2d2.getPos = 
+
+
+    </script>
+</body>
+
+</html>
