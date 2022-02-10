@@ -26,10 +26,10 @@
         }
 
         let ancetre = function (p) {
-            if (p.pere) {
+            if (p.pere.pere) {
                 return ancetre(p.pere)
             } else 
-                return p.nom
+                return p.pere.nom
         }
     </script>
 </body>
