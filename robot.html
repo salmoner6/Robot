@@ -1,31 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    #playground {
-        border: 1px solid black;
-        height: 600px;
-        width: 800px;
-        background: url("desert_sand.jpg");
-        position: relative;
-    }
-
-    #R2D2 {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        transition: top 1s, left 1s;
-    }
-</style>
-
-<div id="playground">
-    <img id="R2D2" src="R2D2.png">
-</div>
 
 <body>
+    <style>
+        #playground {
+            border: 1px solid black;
+            height: 600px;
+            width: 800px;
+            background: url("desert_sand.jpg");
+            position: relative;
+        }
+
+        #R2D2 {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            transition: top 1s, left 1s;
+        }
+
+        #snake {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            transition: top 1s, left 1s;
+        }
+    </style>
+
+    <div id="playground">
+        <img id="R2D2" src="R2D2cropped.png">
+        <img id="snake" src="snake.png">
+    </div>
+    <p>
+        <button onclick="r2d2.returnToCenter()">
+            Return R2D2 to center
+        </button>
+    </p>
     <script>
-        let r2d2 = document.getElementById('R2D2');
-        r2d2.style.top = "300px";
-        r2d2.style.left = "300px";
+        const r2d2 = document.getElementById('R2D2');
+        r2d2.style.top = "253px";
+        r2d2.style.left = "358px";
+
+        const snake = document.getElementById('snake');
+        snake.style.top = "100px";
+        snake.style.top = "100px";
+
+        r2d2.returnToCenter = function () {
+            r2d2.style.top = "253px";
+            r2d2.style.left = "358px";
+        }
 
         r2d2.moveTo = function (x, y) {
             r2d2.style.top = x + "px";
@@ -44,21 +66,41 @@
             r2d2.moveTo(t, l)
         }
 
+        snake.moveSnake = function () {
+            const pg = document.getElementById('playground');
+            const cssPg = window.getComputedStyle(pg, null);
+            let pgh = parseInt(cssPg.getPropertyValue("height"));
+            let pgw = parseInt(cssPg.getPropertyValue("width"));
+
+            snake.style.top += Math.floor(Math.random() * 200) -  + "px";
+            snake.style.left += Math.floor(Math.random() * 200) + "px";
+
+        }
+
         window.onkeydown = function (e) {
             const distance = 20;
             const pg = document.getElementById('playground');
-            const bounds = window.getComputedStyle(pg);
+            const cssPg = window.getComputedStyle(pg, null);
+            let pgh = parseInt(cssPg.getPropertyValue("height"));
+            let pgw = parseInt(cssPg.getPropertyValue("width"));
 
-            if (e.key == "ArrowLeft" && r2d2.getPos().y != 0) {
+            const cssR2d2 = window.getComputedStyle(r2d2, null);
+            let r2h = parseInt(cssR2d2.getPropertyValue("height"));
+            let r2w = parseInt(cssR2d2.getPropertyValue("width"));
+
+            if (e.key == "ArrowLeft" && r2d2.getPos().y > 0) {
                 r2d2.moveRel(0, -distance)
-            } else if (e.key == "ArrowRight" && r2d2.getPos().y != bounds.width - (bounds.width / 10)) {
+            } else if (e.key == "ArrowRight" && r2d2.getPos().y + distance < pgw - r2w) {
                 r2d2.moveRel(0, distance)
-            } else if (e.key == "ArrowUp" && r2d2.getPos().x != 0) {
+            } else if (e.key == "ArrowUp" && r2d2.getPos().x - distance > 0) {
                 r2d2.moveRel(-distance, 0)
-            } else if (e.key == "ArrowDown" && r2d2.getPos().x != bounds.height - (bounds.height / 10)) {
+            } else if (e.key == "ArrowDown" && r2d2.getPos().x + distance < pgh - r2h) {
                 r2d2.moveRel(distance, 0)
             }
+
         }
+
+        setInterval(snake.moveSnake(), 1000);
 
 
     </script>
