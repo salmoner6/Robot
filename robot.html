@@ -16,6 +16,8 @@
             top: 0px;
             left: 0px;
             transition: top 1s, left 1s;
+            height: 82px;
+            width: 65px;
         }
 
         #snake {
@@ -23,71 +25,131 @@
             top: 0px;
             left: 0px;
             transition: top 1s, left 1s;
+            height: 94px;
+            width: 132px;
+        }
+
+        #gear {
+            position: absolute;
+            top: 200px;
+            left: 300px;
+            height: 59px;
+            width: 58px;
         }
     </style>
 
     <div id="playground">
-        <img id="R2D2" src="R2D2cropped.png">
+        <img id="gear" src="gear.png">
         <img id="snake" src="snake.png">
+        <img id="R2D2" src="R2D2cropped.png">
     </div>
     <p>
         <button onclick="r2d2.returnToCenter()">
             Return R2D2 to center
         </button>
+        <label id="score"></label>
     </p>
     <script>
+        const distance = 20;
+        const snakeDistance = 5;
+
+        //accès au robot
         const r2d2 = document.getElementById('R2D2');
         r2d2.style.top = "253px";
         r2d2.style.left = "358px";
+        const cssR2d2 = window.getComputedStyle(r2d2, null);
+        let r2h = parseInt(cssR2d2.getPropertyValue("height"));
+        let r2w = parseInt(cssR2d2.getPropertyValue("width"));
 
+        //accès au serpent 
         const snake = document.getElementById('snake');
-        snake.style.top = "100px";
-        snake.style.top = "100px";
+        snake.style.top = "0px";
+        snake.style.left = "0px";
+        const cssSnake = window.getComputedStyle(snake, null);
+        let sh = parseInt(cssSnake.getPropertyValue("height"));
+        let sw = parseInt(cssSnake.getPropertyValue("width"));
 
+        //accès à l'aire de jeux 
+        const pg = document.getElementById('playground');
+        const cssPg = window.getComputedStyle(pg, null);
+        let pgh = parseInt(cssPg.getPropertyValue("height"));
+        let pgw = parseInt(cssPg.getPropertyValue("width"));
+
+        //accès à la roue dentée
+        const gear = document.getElementById('gear');
+        gear.style.top = "200px";
+        gear.style.left = "300px"
+        const cssGear = window.getComputedStyle(gear, null);
+        let gh = parseInt(cssGear.getPropertyValue("height"));
+        let gw = parseInt(cssGear.getPropertyValue("width"));
+
+        //initialisation score
+        let score = 0;
+        let snakeScore = 0;
+        var lblScore = document.getElementById('score');
+        lblScore.innerHTML = "Score: " + score + "... Snake score: " + snakeScore;
+
+        //le robot revient au centre de l'aire de jeux
         r2d2.returnToCenter = function () {
             r2d2.style.top = "253px";
             r2d2.style.left = "358px";
         }
 
+        //le robot va aux coordonnées spécifiées 
         r2d2.moveTo = function (x, y) {
             r2d2.style.top = x + "px";
             r2d2.style.left = y + "px";
         }
 
+        //renvoie les coordonnées actuelles du robot
         r2d2.getPos = function () {
             x = parseInt(r2d2.style.top, 10)
             y = parseInt(r2d2.style.left, 10)
             return { x, y }
         }
 
+        //renvoie les coordonnées actuelles de la roue dentée
+        gear.getPos = function () {
+            x = parseInt(gear.style.top, 10)
+            y = parseInt(gear.style.left, 10)
+            return { x, y }
+        }
+
+        //renvoie les coordonnées actuelles du serpent
+        snake.getPos = function () {
+            x = parseInt(snake.style.top, 10)
+            y = parseInt(snake.style.left, 10)
+            return { x, y }
+        }
+        //le robot se déplace de (x, y) pixels relativement à sa position courante
         r2d2.moveRel = function (x, y) {
             t = r2d2.getPos().x + x
             l = r2d2.getPos().y + y
             r2d2.moveTo(t, l)
+            hit(t, l);
         }
 
-        snake.moveSnake = function () {
-            const pg = document.getElementById('playground');
-            const cssPg = window.getComputedStyle(pg, null);
-            let pgh = parseInt(cssPg.getPropertyValue("height"));
-            let pgw = parseInt(cssPg.getPropertyValue("width"));
-
-            snake.style.top += Math.floor(Math.random() * 200) -  + "px";
-            snake.style.left += Math.floor(Math.random() * 200) + "px";
-
+        //le serpent se déplace de (x, y) pixels relativement à sa position courante
+        snake.moveRel = function (x, y) {
+            t = snake.getPos().x + x;
+            l = snake.getPos().y + y;
+            snake.style.top = t + "px";
+            snake.style.left = l + "px";
         }
 
+        //on déplace la roue dentée si le robot la touche 
+        function hit(x, y) {
+            if (x + r2w / 2 >= gear.getPos().x && x + r2w / 2 <= gear.getPos().x + gh &&
+                y + r2h / 2 >= gear.getPos().y && y + r2h / 2 <= gear.getPos().y + gw) {
+                gear.style.top = Math.floor(Math.random() * (pgh - gh)) + "px";
+                gear.style.left = Math.floor(Math.random() * (pgw - gw)) + "px";
+                ++score;
+                lblScore.innerHTML = "Score: " + score + "... Snake score: " + snakeScore;
+            }
+        }
+
+        //on déplace le robot avec le clavier de manière relative, d'une distance constante 
         window.onkeydown = function (e) {
-            const distance = 20;
-            const pg = document.getElementById('playground');
-            const cssPg = window.getComputedStyle(pg, null);
-            let pgh = parseInt(cssPg.getPropertyValue("height"));
-            let pgw = parseInt(cssPg.getPropertyValue("width"));
-
-            const cssR2d2 = window.getComputedStyle(r2d2, null);
-            let r2h = parseInt(cssR2d2.getPropertyValue("height"));
-            let r2w = parseInt(cssR2d2.getPropertyValue("width"));
-
             if (e.key == "ArrowLeft" && r2d2.getPos().y > 0) {
                 r2d2.moveRel(0, -distance)
             } else if (e.key == "ArrowRight" && r2d2.getPos().y + distance < pgw - r2w) {
@@ -97,10 +159,25 @@
             } else if (e.key == "ArrowDown" && r2d2.getPos().x + distance < pgh - r2h) {
                 r2d2.moveRel(distance, 0)
             }
-
         }
 
-        setInterval(snake.moveSnake(), 1000);
+        snake.moveSnake = function () {
+            let xTravelVector = gear.getPos().x - snake.getPos().x;
+            let yTravelVector = gear.getPos().y - snake.getPos().y;
+            let norm = Math.sqrt(xTravelVector ** 2 + yTravelVector ** 2);
+            snake.moveRel(xTravelVector/norm*snakeDistance, yTravelVector/norm*snakeDistance)
+            x = snake.getPos().x;
+            y = snake.getPos().y;
+            if (x >= gear.getPos().x && x <= gear.getPos().x + gh &&
+                y >= gear.getPos().y && y <= gear.getPos().y + gw) {
+                gear.style.top = Math.floor(Math.random() * (pgh - gh)) + "px";
+                gear.style.left = Math.floor(Math.random() * (pgw - gw)) + "px";
+                ++snakeScore;
+                lblScore.innerHTML = "Score: " + score + "... Snake score: " + snakeScore;
+                }
+        }
+
+        setInterval(snake.moveSnake, 100);
 
 
     </script>
