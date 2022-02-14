@@ -99,6 +99,13 @@
         r2d2.moveTo = function (x, y) {
             r2d2.style.top = x + "px";
             r2d2.style.left = y + "px";
+            let XVector = snake.getPos().x - r2d2.getPos().x;
+            let YVector = snake.getPos().y - r2d2.getPos().y;
+            let norm = Math.sqrt(XVector ** 2 + YVector ** 2);
+            if (norm < 25) {
+                score = 0;
+                lblScore.innerHTML = "Score: " + score + "... Snake score: " + snakeScore;
+            }
         }
 
         //renvoie les coordonnées actuelles du robot
@@ -126,7 +133,7 @@
             t = r2d2.getPos().x + x
             l = r2d2.getPos().y + y
             r2d2.moveTo(t, l)
-            hit(t, l);
+            hit(r2d2);
         }
 
         //le serpent se déplace de (x, y) pixels relativement à sa position courante
@@ -137,14 +144,21 @@
             snake.style.left = l + "px";
         }
 
-        //on déplace la roue dentée si le robot la touche 
-        function hit(x, y) {
-            if (x + r2w / 2 >= gear.getPos().x && x + r2w / 2 <= gear.getPos().x + gh &&
-                y + r2h / 2 >= gear.getPos().y && y + r2h / 2 <= gear.getPos().y + gw) {
+        //on déplace la roue dentée si le robot ou le serpent la touche et on ajoute 1 point 
+        function hit(obj) {
+            let XVector = gear.getPos().x - obj.getPos().x;
+            let YVector = gear.getPos().y - obj.getPos().y;
+            let norm = Math.sqrt(XVector ** 2 + YVector ** 2);
+            if (norm < 25) {
                 gear.style.top = Math.floor(Math.random() * (pgh - gh)) + "px";
                 gear.style.left = Math.floor(Math.random() * (pgw - gw)) + "px";
-                ++score;
-                lblScore.innerHTML = "Score: " + score + "... Snake score: " + snakeScore;
+                if (obj == snake) {
+                    ++snakeScore;
+                    lblScore.innerHTML = "Score: " + score + "... Snake score: " + snakeScore;
+                } else if (obj == r2d2) {
+                    ++score;
+                    lblScore.innerHTML = "Score: " + score + "... Snake score: " + snakeScore;
+                }
             }
         }
 
@@ -165,16 +179,8 @@
             let xTravelVector = gear.getPos().x - snake.getPos().x;
             let yTravelVector = gear.getPos().y - snake.getPos().y;
             let norm = Math.sqrt(xTravelVector ** 2 + yTravelVector ** 2);
-            snake.moveRel(xTravelVector/norm*snakeDistance, yTravelVector/norm*snakeDistance)
-            x = snake.getPos().x;
-            y = snake.getPos().y;
-            if (x >= gear.getPos().x && x <= gear.getPos().x + gh &&
-                y >= gear.getPos().y && y <= gear.getPos().y + gw) {
-                gear.style.top = Math.floor(Math.random() * (pgh - gh)) + "px";
-                gear.style.left = Math.floor(Math.random() * (pgw - gw)) + "px";
-                ++snakeScore;
-                lblScore.innerHTML = "Score: " + score + "... Snake score: " + snakeScore;
-                }
+            snake.moveRel(xTravelVector / norm * snakeDistance, yTravelVector / norm * snakeDistance)
+            hit(snake);
         }
 
         setInterval(snake.moveSnake, 100);
