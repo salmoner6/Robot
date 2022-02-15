@@ -35,16 +35,16 @@
             position: absolute;
             visibility: hidden;
             z-index: 1;
-            height: 100%; 
-            width: 100%; 
+            height: 200px; 
+            width: 200px; 
         }
 
         #lose {
             position: absolute;
             visibility: hidden;
             z-index: 1;
-            height: 100%;
-            width: 100%;
+            height: 200px;
+            width: 300px;
         }
     </style>
 
@@ -53,7 +53,7 @@
         <img id="snake" src="snake.png">
         <img id="R2D2" src="R2D2cropped.png">
         <img id="win" src="youwin.jpg">
-        <img id="lose" src="youlose.jpg">
+        <img id="lose" src="youlose.png">
     </div>
     <p>
         <button onclick="r2d2.returnToCenter()">
@@ -102,6 +102,7 @@
         let ww = parseInt(cssWin.getPropertyValue("width"));
         win.style.top = ((pgh / 2) - (wh / 2)) + "px";
         win.style.left = ((pgw / 2) - (ww / 2)) + "px";
+        
 
         const lose = document.getElementById('lose');
         const cssLose = window.getComputedStyle(lose, null);
