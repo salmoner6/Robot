@@ -5,8 +5,8 @@ class Point {
     }
 
     move(x, y) {
-        this.x = this.x + x;
-        this.y = this.y + y;
+        this.x = parseInt(this.x + x);
+        this.y = parseInt(this.y + y);
     }
 }
 
@@ -18,6 +18,8 @@ class Sprite {
         insideDOM.appendChild(obj);
         this.DOM = document.getElementById(id);
         this.pos = new Point(this.DOM.style.left, this.DOM.style.top);
+        this.speedX;
+        this.speedY;
     }
 
     move(x, y) {
@@ -26,11 +28,36 @@ class Sprite {
         this.DOM.style.top = this.pos.y+"px";
     }
 
+    moveNextFrame(duration) {
+        let x = this.speedX*duration/1000;
+        let y = this.speedY*duration/1000;
+        this.move(x,y);
+    }
+
 }
 
 const r2d2 = new Sprite("R2D2cropped.png", document.getElementById("playground"), "R2D2");
-r2d2.move(300, 200);
+r2d2.move(500, 200);
 
+const snake = new Sprite("snake.png", document.getElementById("playground"), "snake");
+snake.move(0,0)
+console.log(snake.pos.x, snake.pos.y);
+
+snake.move(10,10)
+console.log(snake.pos.x, snake.pos.y);
+
+snake.speedX = 100;
+snake.speedY = 100;
+let interval = setInterval(function () {snake.moveNextFrame(100); }, 100);
+setTimeout(function(){clearInterval(interval)},5000);
+
+const gear = new Sprite("gear.png", document.getElementById("playground"), "gear");
+gear.move(200, 200);
+
+const lose = new Sprite("youlose.png", document.getElementById("playground"), "lose");
+lose.DOM.style.visibility = "hidden";
+const win = new Sprite("youwin.jpg", document.getElementById("playground"), "win");
+win.DOM.style.visibility = "hidden";
 
 const distance = 20;
 const snakeDistance = 5;
