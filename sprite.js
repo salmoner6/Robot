@@ -1,7 +1,41 @@
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    move(x, y) {
+        this.x = this.x + x;
+        this.y = this.y + y;
+    }
+}
+
+class Sprite {
+    constructor(imgPath, insideDOM, id) {
+        let obj = document.createElement("img"); 
+        obj.setAttribute("src", imgPath);
+        obj.setAttribute("id", id);
+        insideDOM.appendChild(obj);
+        this.DOM = document.getElementById(id);
+        this.pos = new Point(this.DOM.style.left, this.DOM.style.top);
+    }
+
+    move(x, y) {
+        this.pos.move(x, y);
+        this.DOM.style.left = this.pos.x+"px";
+        this.DOM.style.top = this.pos.y+"px";
+    }
+
+}
+
+const r2d2 = new Sprite("R2D2cropped.png", document.getElementById("playground"), "R2D2");
+r2d2.move(300, 200);
+
 
 const distance = 20;
 const snakeDistance = 5;
 
+/*
 //accès à l'aire de jeux 
 const pg = document.getElementById('playground');
 const cssPg = window.getComputedStyle(pg, null);
@@ -21,16 +55,16 @@ const snake = document.getElementById('snake');
 const cssSnake = window.getComputedStyle(snake, null);
 let sh = parseInt(cssSnake.getPropertyValue("height"));
 let sw = parseInt(cssSnake.getPropertyValue("width"));
-snake.style.top = (sh/2) + "px";
-snake.style.left = (sw/2) + "px";
+snake.style.top = (sh / 2) + "px";
+snake.style.left = (sw / 2) + "px";
 
 //accès à la roue dentée
 const gear = document.getElementById('gear');
 const cssGear = window.getComputedStyle(gear, null);
 let gh = parseInt(cssGear.getPropertyValue("height"));
 let gw = parseInt(cssGear.getPropertyValue("width"));
-gear.style.top = pgh/3 + "px";
-gear.style.left = pgw/3 + "px";
+gear.style.top = pgh / 3 + "px";
+gear.style.left = pgw / 3 + "px";
 
 //messages fin
 const win = document.getElementById('win');
@@ -107,7 +141,7 @@ function hitSnake() {
     let XVector = (snake.getPos().x + (sh / 2)) - (r2d2.getPos().x + (r2h / 2));
     let YVector = (snake.getPos().y + (sw / 2)) - (r2d2.getPos().y + (r2w / 2));
     let norm = Math.sqrt(XVector ** 2 + YVector ** 2);
-    if (norm < sh/2) {
+    if (norm < sh / 2) {
         lose.style.visibility = "visible";
         clearInterval(snakeInterval);
         score = 0;
@@ -124,11 +158,11 @@ function hit(obj) {
     let XVector = (gear.getPos().x + (gh / 2)) - (obj.getPos().x + (oh / 2));
     let YVector = (gear.getPos().y + (gw / 2)) - (obj.getPos().y + (ow / 2));
     let norm = Math.sqrt(XVector ** 2 + YVector ** 2);
-    if (norm < gh/2) {
+    if (norm < gh / 2) {
         gear.style.top = Math.floor(Math.random() * (pgh - gh)) + "px";
         gear.style.left = Math.floor(Math.random() * (pgw - gw)) + "px";
         if (obj == snake) {
-            if (snakeScore === 9){
+            if (snakeScore === 9) {
                 lose.style.visibility = "visible";
                 clearInterval(snakeInterval);
             }
@@ -169,3 +203,4 @@ snake.moveSnake = function () {
 }
 
 const snakeInterval = setInterval(snake.moveSnake, 100);
+*/
