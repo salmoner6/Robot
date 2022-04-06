@@ -1,0 +1,48 @@
+#playground {
+    border: 1px solid black;
+    height: 600px;
+    width: 800px;
+    background: url("desert_sand.jpg");
+    position: relative;
+}
+
+#playground * {
+    position: absolute;
+  }
+
+
+#R2D2 {
+    position: absolute;
+    transition: top 1s, left 1s;
+    height: 82px;
+    width: 65px;
+}
+
+#snake {
+    position: absolute;
+    transition: top 1s, left 1s;
+    height: 94px;
+    width: 132px;
+}
+
+#gear {
+    position: absolute;
+    height: 59px;
+    width: 58px;
+}
+
+#win {
+    position: absolute;
+    visibility: hidden;
+    z-index: 1;
+    height: 200px; 
+    width: 200px; 
+}
+
+#lose {
+    position: absolute;
+    visibility: hidden;
+    z-index: 1;
+    height: 200px;
+    width: 300px;
+}
